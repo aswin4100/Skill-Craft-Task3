@@ -1,0 +1,6 @@
+{
+  "name": "QuizNova",
+  "description": "Challenge Your Mind. Track Your Progress. An interactive multi-format quiz application built with HTML5, CSS3, and Vanilla JavaScript for SkillCraft Technology Internship Task 03.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

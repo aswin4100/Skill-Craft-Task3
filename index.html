@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuizNova - Challenge Your Mind. Track Your Progress.</title>
+    <meta
+      name="description"
+      content="An interactive multi-format quiz game web application built with HTML5, CSS3, and Vanilla JavaScript for SkillCraft Technology Internship Task 03."
+    />
+    <meta property="og:title" content="QuizNova - Challenge Your Mind. Track Your Progress." />
+    <meta
+      property="og:description"
+      content="An interactive multi-format quiz game web application featuring single-select, multi-select, and fill-in-the-blank questions with detailed analytics."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0a0e1a" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- App Wrapper -->
+    <div id="app" class="app-layout">
+      <!-- Top Navigation Bar -->
+      <header class="app-header">
+        <div class="header-inner">
+          <div class="brand-group">
+            <a href="#home" class="brand-logo" id="brand-home-link" aria-label="QuizNova Home">
+              <span class="logo-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" class="brand-svg">
+                  <path
+                    d="M16 2L28 8.9V23.1L16 30L4 23.1V8.9L16 2Z"
+                    stroke="url(#brand-grad)"
+                    stroke-width="2.5"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M16 8L22 11.5V18.5L16 22L10 18.5V11.5L16 8Z"
+                    fill="url(#brand-grad-fill)"
+                    opacity="0.4"
+                  />
+                  <circle cx="16" cy="15" r="3" fill="#38bdf8" />
+                  <defs>
+                    <linearGradient id="brand-grad" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#6366f1" />
+                      <stop offset="0.5" stop-color="#8b5cf6" />
+                      <stop offset="1" stop-color="#06b6d4" />
+                    </linearGradient>
+                    <linearGradient id="brand-grad-fill" x1="10" y1="8" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#6366f1" />
+                      <stop offset="1" stop-color="#06b6d4" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+              <span class="brand-text">
+                <span class="brand-name">QuizNova</span>
+              </span>
+            </a>
+            <span class="brand-tagline">Challenge Your Mind. Track Your Progress.</span>
+          </div>
+
+          <div class="header-actions">
+            <button
+              type="button"
+              id="header-leaderboard-btn"
+              class="btn btn-secondary btn-sm"
+              aria-label="View Leaderboard"
+            >
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                <path d="M4 22h16" />
+                <path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34" />
+                <path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34" />
+                <path d="M6 4h12a2 2 0 0 1 2 2v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6V6a2 2 0 0 1 2-2Z" />
+              </svg>
+              <span>Leaderboard</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Container -->
+      <main class="main-content" id="main-content">
+        <!-- SCREEN 1: Welcome & Setup Screen -->
+        <section id="welcome-screen" class="view-panel active-panel" aria-labelledby="welcome-heading">
+          <div class="welcome-container">
+            <!-- Hero Title & Subtext -->
+            <div class="welcome-hero">
+              <h1 id="welcome-heading" class="hero-title">Ready to Challenge Yourself?</h1>
+              <p class="hero-subtitle">
+                Expand your knowledge with curated questions covering modern web engineering, JavaScript internals,
+                computer science foundations, and general tech acumen.
+              </p>
+            </div>
+
+            <!-- Configuration Card -->
+            <div class="setup-card glass-card">
+              <form id="quiz-setup-form" onsubmit="return false;" novalidate>
+                <!-- Nickname Input -->
+                <div class="form-row">
+                  <label for="player-nickname" class="form-label">
+                    <span>Your Nickname</span>
+                    <span class="label-hint">(Saved with your high score)</span>
+                  </label>
+                  <div class="input-with-icon">
+                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <input
+                      type="text"
+                      id="player-nickname"
+                      class="text-input"
+                      placeholder="e.g. CodeExplorer"
+                      maxlength="24"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+
+                <!-- Category Selection -->
+                <div class="form-row">
+                  <div class="label-bar">
+                    <label class="form-label" id="category-group-label">Select Category</label>
+                    <span class="label-subtext" id="category-selection-info">Choose your topic area</span>
+                  </div>
+                  <div
+                    class="category-grid"
+                    role="radiogroup"
+                    aria-labelledby="category-group-label"
+                    id="category-selector-container"
+                  >
+                    <!-- Dynamically populated via script.js for maintainability -->
+                  </div>
+                </div>
+
+                <!-- Difficulty & Question Count Two-Column Row -->
+                <div class="form-grid-2">
+                  <!-- Difficulty Selector -->
+                  <div class="form-col">
+                    <div class="label-bar">
+                      <label class="form-label" id="difficulty-group-label">Difficulty Level</label>
+                    </div>
+                    <div class="segmented-control" role="radiogroup" aria-labelledby="difficulty-group-label">
+                      <button
+                        type="button"
+                        class="seg-btn active"
+                        data-diff="all"
+                        role="radio"
+                        aria-checked="true"
+                      >
+                        All
+                      </button>
+                      <button
+                        type="button"
+                        class="seg-btn"
+                        data-diff="Easy"
+                        role="radio"
+                        aria-checked="false"
+                      >
+                        Easy
+                      </button>
+                      <button
+                        type="button"
+                        class="seg-btn"
+                        data-diff="Medium"
+                        role="radio"
+                        aria-checked="false"
+                      >
+                        Medium
+                      </button>
+                      <button
+                        type="button"
+                        class="seg-btn"
+                        data-diff="Hard"
+                        role="radio"
+                        aria-checked="false"
+                      >
+                        Hard
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Question Count Selector -->
+                  <div class="form-col">
+                    <div class="label-bar">
+                      <label class="form-label" id="count-group-label">Question Count</label>
+                    </div>
+                    <div class="segmented-control" role="radiogroup" aria-labelledby="count-group-label">
+                      <button
+                        type="button"
+                        class="seg-btn"
+                        data-count="5"
+                        role="radio"
+                        aria-checked="false"
+                      >
+                        5
+                      </button>
+                      <button
+                        type="button"
+                        class="seg-btn active"
+                        data-count="10"
+                        role="radio"
+                        aria-checked="true"
+                      >
+                        10
+                      </button>
+                      <button
+                        type="button"
+                        class="seg-btn"
+                        data-count="15"
+                        role="radio"
+                        aria-checked="false"
+                      >
+                        15
+                      </button>
+                      <button
+                        type="button"
+                        class="seg-btn"
+                        data-count="20"
+                        role="radio"
+                        aria-checked="false"
+                      >
+                        20
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Advanced Options: Timer & Practice Mode -->
+                <div class="form-grid-2 setup-options-row">
+                  <!-- Timer Control -->
+                  <div class="toggle-control-card">
+                    <div class="toggle-meta">
+                      <span class="toggle-title">Quiz Timer</span>
+                      <span class="toggle-desc" id="timer-desc">30 seconds allocated per question</span>
+                    </div>
+                    <label class="switch" for="timer-toggle">
+                      <input type="checkbox" id="timer-toggle" checked aria-describedby="timer-desc" />
+                      <span class="slider round" aria-hidden="true"></span>
+                    </label>
+                  </div>
+
+                  <!-- Practice Mode Control -->
+                  <div class="toggle-control-card">
+                    <div class="toggle-meta">
+                      <span class="toggle-title">Practice Mode</span>
+                      <span class="toggle-desc">Instant explanations after each question</span>
+                    </div>
+                    <label class="switch" for="practice-toggle">
+                      <input type="checkbox" id="practice-toggle" />
+                      <span class="slider round" aria-hidden="true"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="setup-cta">
+                  <button type="button" id="start-quiz-btn" class="btn btn-primary btn-lg btn-block">
+                    <span>Start Quiz</span>
+                    <svg class="icon icon-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Features Showcase Grid -->
+            <div class="features-section">
+              <h2 class="section-title">Built For Deep Learning</h2>
+              <div class="features-grid">
+                <div class="feature-item">
+                  <div class="feature-icon feature-icon-cyan">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 11l3 3L22 4" />
+                      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                    </svg>
+                  </div>
+                  <h3 class="feature-name">3 Distinct Question Types</h3>
+                  <p class="feature-detail">
+                    Master single-choice challenges, complex multiple-select sets, and precision fill-in-the-blanks.
+                  </p>
+                </div>
+
+                <div class="feature-item">
+                  <div class="feature-icon feature-icon-purple">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                  </div>
+                  <h3 class="feature-name">Timestamp-Accurate Timer</h3>
+                  <p class="feature-detail">
+                    Drift-free countdown using high-resolution timestamps with smooth alerts and auto-submission.
+                  </p>
+                </div>
+
+                <div class="feature-item">
+                  <div class="feature-icon feature-icon-indigo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+                      <path d="M6 6h10" />
+                      <path d="M6 10h10" />
+                    </svg>
+                  </div>
+                  <h3 class="feature-name">Explanations & Review</h3>
+                  <p class="feature-detail">
+                    Review your entire answer breakdown with comprehensive educational rationales and filterable insights.
+                  </p>
+                </div>
+
+                <div class="feature-item">
+                  <div class="feature-icon feature-icon-emerald">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 20V10" />
+                      <path d="M12 20V4" />
+                      <path d="M6 20v-6" />
+                    </svg>
+                  </div>
+                  <h3 class="feature-name">Local Leaderboard</h3>
+                  <p class="feature-detail">
+                    Track your personal progress, scores, and accuracy securely saved in your browser storage.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 2: Active Quiz Interface -->
+        <section id="quiz-screen" class="view-panel" aria-labelledby="current-question-text">
+          <div class="quiz-container">
+            <!-- Quiz HUD / Top Bar -->
+            <div class="quiz-hud glass-card">
+              <div class="hud-top-row">
+                <div class="hud-meta-tags">
+                  <span id="hud-category-tag" class="hud-tag">Web Development</span>
+                  <span id="hud-difficulty-tag" class="hud-tag hud-diff-med">Medium</span>
+                  <span id="hud-type-tag" class="hud-tag hud-type-single">Single Select</span>
+                </div>
+
+                <div class="hud-controls">
+                  <!-- Timer Display -->
+                  <div id="quiz-timer-container" class="timer-badge" aria-live="polite">
+                    <svg class="timer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span id="timer-display-text" class="timer-digits">00:30</span>
+                  </div>
+
+                  <!-- Exit Quiz Button -->
+                  <button
+                    type="button"
+                    id="exit-quiz-btn"
+                    class="btn btn-ghost btn-sm"
+                    title="Exit Quiz"
+                    aria-label="Exit Quiz"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 6 6 18" />
+                      <path d="m6 6 12 12" />
+                    </svg>
+                    <span>Exit</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Question Counter & Progress Bar -->
+              <div class="hud-progress-row">
+                <div class="progress-info">
+                  <span class="progress-label" id="question-tracker-text">
+                    Question <strong id="current-q-index">1</strong> of <span id="total-q-count">10</span>
+                  </span>
+                  <span class="progress-percent" id="progress-percent-text">10%</span>
+                </div>
+                <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="quiz-progress-bar">
+                  <div class="progress-fill" id="progress-fill-element" style="width: 10%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Question Card -->
+            <div class="question-card glass-card">
+              <!-- Question Type Helper Notice -->
+              <div class="question-type-notice" id="question-type-instruction" aria-live="polite">
+                Select exactly one answer.
+              </div>
+
+              <!-- Question Heading -->
+              <h2 id="current-question-text" class="question-text">
+                Loading question...
+              </h2>
+
+              <!-- Dynamic Interactive Options Container -->
+              <div id="question-options-container" class="options-container" role="region" aria-label="Question choices">
+                <!-- Injected via JavaScript -->
+              </div>
+
+              <!-- Practice Mode Inline Explanation (shown only in practice mode after answering) -->
+              <div id="practice-feedback-box" class="practice-feedback-box hidden" aria-live="polite">
+                <!-- Injected dynamically in practice mode -->
+              </div>
+
+              <!-- Inline Validation Alert (for missing answers) -->
+              <div id="validation-alert" class="validation-alert hidden" role="alert" aria-live="assertive">
+                <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <span id="validation-alert-text">Please provide an answer to proceed.</span>
+              </div>
+            </div>
+
+            <!-- Navigation Controls Bar -->
+            <div class="quiz-nav-bar">
+              <button
+                type="button"
+                id="prev-question-btn"
+                class="btn btn-secondary"
+                disabled
+                aria-label="Previous Question"
+              >
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                <span>Previous</span>
+              </button>
+
+              <div class="nav-center-actions">
+                <button
+                  type="button"
+                  id="skip-question-btn"
+                  class="btn btn-ghost btn-sm"
+                  aria-label="Skip question for now"
+                >
+                  <span>Skip for Now</span>
+                </button>
+              </div>
+
+              <button
+                type="button"
+                id="next-question-btn"
+                class="btn btn-primary"
+                aria-label="Next Question"
+              >
+                <span id="next-btn-text">Next</span>
+                <svg class="icon icon-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 3: Results Dashboard -->
+        <section id="results-screen" class="view-panel" aria-labelledby="results-heading">
+          <div class="results-container">
+            <!-- Results Overview Card -->
+            <div class="results-card glass-card">
+              <div class="results-header">
+                <span id="performance-badge" class="tier-pill tier-outstanding">Outstanding!</span>
+                <h1 id="results-heading" class="results-title">Quiz Completed</h1>
+                <p id="performance-message" class="results-subtext">
+                  You demonstrated an exceptional command of the material.
+                </p>
+              </div>
+
+              <!-- Visual Score Showcase with SVG Circular Gauge -->
+              <div class="score-visual-area">
+                <div class="circular-chart-wrapper">
+                  <svg viewBox="0 0 160 160" class="circular-chart" aria-hidden="true">
+                    <!-- Background circle -->
+                    <circle class="circle-bg" cx="80" cy="80" r="70" />
+                    <!-- Animated score circle -->
+                    <circle id="score-circle-stroke" class="circle-fill" cx="80" cy="80" r="70" />
+                  </svg>
+                  <div class="chart-content">
+                    <span id="result-percent-val" class="chart-percent">0%</span>
+                    <span class="chart-sub">ACCURACY</span>
+                  </div>
+                </div>
+
+                <div class="score-points-display">
+                  <span class="points-label">Total Points</span>
+                  <div class="points-val">
+                    <strong id="result-score-pts">0</strong>
+                    <span class="points-max">/ <span id="result-max-pts">100</span></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Comprehensive Statistics Grid -->
+              <div class="stats-grid">
+                <div class="stat-box">
+                  <span class="stat-label">Total Questions</span>
+                  <strong class="stat-number" id="stat-total-q">10</strong>
+                </div>
+                <div class="stat-box stat-correct">
+                  <span class="stat-label">Correct</span>
+                  <strong class="stat-number text-emerald" id="stat-correct-q">0</strong>
+                </div>
+                <div class="stat-box stat-incorrect">
+                  <span class="stat-label">Incorrect</span>
+                  <strong class="stat-number text-rose" id="stat-incorrect-q">0</strong>
+                </div>
+                <div class="stat-box stat-skipped">
+                  <span class="stat-label">Unanswered</span>
+                  <strong class="stat-number text-amber" id="stat-skipped-q">0</strong>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-label">Time Elapsed</span>
+                  <strong class="stat-number" id="stat-time-spent">00:00</strong>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-label">Category</span>
+                  <strong class="stat-number stat-category-name" id="stat-category-name">Web Dev</strong>
+                </div>
+              </div>
+
+              <!-- Results Primary Action Buttons -->
+              <div class="results-actions">
+                <button type="button" id="toggle-review-btn" class="btn btn-primary">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  <span id="review-btn-label">Review Answers</span>
+                </button>
+
+                <button type="button" id="retry-quiz-btn" class="btn btn-secondary">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                    <path d="M21 3v5h-5" />
+                    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                    <path d="M8 16H3v5" />
+                  </svg>
+                  <span>Retry Quiz</span>
+                </button>
+
+                <button type="button" id="return-home-btn" class="btn btn-ghost">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                  </svg>
+                  <span>Return Home</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- In-Depth Answer Review Section (Collapsible / Toggleable) -->
+            <div id="review-section" class="review-section hidden">
+              <div class="review-section-header">
+                <div class="review-header-text">
+                  <h2 class="section-title">Detailed Answer Review</h2>
+                  <p class="section-subtitle">Examine the rationale and correct solutions for each question.</p>
+                </div>
+
+                <!-- Review Filter Tabs -->
+                <div class="review-filter-bar" role="tablist" aria-label="Filter reviewed questions">
+                  <button
+                    type="button"
+                    class="filter-tab active"
+                    data-filter="all"
+                    role="tab"
+                    aria-selected="true"
+                  >
+                    All (<span id="filter-count-all">0</span>)
+                  </button>
+                  <button
+                    type="button"
+                    class="filter-tab"
+                    data-filter="correct"
+                    role="tab"
+                    aria-selected="false"
+                  >
+                    Correct (<span id="filter-count-correct">0</span>)
+                  </button>
+                  <button
+                    type="button"
+                    class="filter-tab"
+                    data-filter="incorrect"
+                    role="tab"
+                    aria-selected="false"
+                  >
+                    Incorrect & Skipped (<span id="filter-count-incorrect">0</span>)
+                  </button>
+                </div>
+              </div>
+
+              <!-- List of Question Review Cards -->
+              <div id="review-cards-list" class="review-cards-list">
+                <!-- Dynamically populated via script.js -->
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- App Footer -->
+      <footer class="app-footer">
+        <div class="footer-inner">
+          <p class="footer-copy">
+            &copy; QuizNova. Developed for SkillCraft Technology Web Development Internship &mdash; Task 03.
+          </p>
+          <div class="footer-links">
+            <button type="button" id="footer-leaderboard-btn" class="footer-link-btn">Leaderboard</button>
+            <span class="footer-divider">&middot;</span>
+            <span class="footer-note">Client-Side Vanilla JS Architecture</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- MODAL 1: Local Leaderboard Modal -->
+    <div
+      id="leaderboard-modal"
+      class="modal-backdrop hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="leaderboard-modal-title"
+    >
+      <div class="modal-card glass-card">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34" />
+              <path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34" />
+              <path d="M6 4h12a2 2 0 0 1 2 2v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6V6a2 2 0 0 1 2-2Z" />
+            </svg>
+            <h2 id="leaderboard-modal-title" class="modal-title">Hall of Fame</h2>
+          </div>
+          <button
+            type="button"
+            id="close-leaderboard-btn"
+            class="modal-close-btn"
+            aria-label="Close Leaderboard Modal"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <p class="modal-note">
+            Top scores saved locally in your browser storage. Sorted by accuracy and points.
+          </p>
+
+          <div class="table-container">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th scope="col" class="th-rank">#</th>
+                  <th scope="col">Player</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Accuracy</th>
+                  <th scope="col">Points</th>
+                  <th scope="col" class="th-date">Date</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-table-body">
+                <!-- Dynamically populated or empty state -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="clear-leaderboard-btn" class="btn btn-outline-danger btn-sm">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18" />
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+            </svg>
+            <span>Clear Records</span>
+          </button>
+          <button type="button" id="close-leaderboard-footer-btn" class="btn btn-secondary btn-sm">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: Generic Confirmation Modal (Exit / Restart / Clear) -->
+    <div
+      id="confirm-modal"
+      class="modal-backdrop hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-modal-title"
+    >
+      <div class="modal-card modal-card-sm glass-card">
+        <div class="modal-header">
+          <h2 id="confirm-modal-title" class="modal-title">Confirm Action</h2>
+          <button type="button" id="confirm-modal-close-btn" class="modal-close-btn" aria-label="Close dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="confirm-modal-message" class="modal-confirm-text">
+            Are you sure you want to proceed?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="confirm-modal-cancel-btn" class="btn btn-secondary btn-sm">
+            Cancel
+          </button>
+          <button type="button" id="confirm-modal-action-btn" class="btn btn-danger btn-sm">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container for Screen Reader & Visual Alerts -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- Application Logic (Vanilla JavaScript) -->
+    <script src="./script.js"></script>
+  </body>
+</html>
